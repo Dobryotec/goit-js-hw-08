@@ -4,12 +4,14 @@ const iframe = document.getElementById('vimeo-player');
 
 const player = new Player(iframe);
 
-const onPlay = ({ seconds }) => {
-  localStorage.setItem('videoplayer-current-time', seconds);
-};
-player.on('timeupdate', throttle(onPlay, 1000));
+player.on(
+  'timeupdate',
+  throttle(function ({ seconds }) {
+    localStorage.setItem('videoplayer-current-time', seconds);
+  }, 1000)
+);
 
-player.setCurrentTime(localStorage.getItem('videoplayer-current-time'));
+player.setCurrentTime(+localStorage.getItem('videoplayer-current-time'));
 
 player.getVideoTitle().then(function (title) {
   console.log('title:', title);
